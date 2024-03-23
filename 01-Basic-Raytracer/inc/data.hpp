@@ -11,16 +11,16 @@ double nFocalLength = 1.0;
 double nViewportWidth = 1.0;
 double nViewportHeight = nViewportWidth / nAspectRatio;
 
-double nCanvasWidth = 400;
+double nCanvasWidth = 300;
 double nCanvasHeight = nCanvasWidth / nAspectRatio;
 
+color aBackgroundColor(255, 255, 255);
 
-point3 CanvasToViewport(const point3& aCanvasPoint)
+point3 CanvasToViewport(const point3& rCanvasPoint)
 {
-    double x = aCanvasPoint.x() * (nViewportWidth / nCanvasWidth);
-    double y = aCanvasPoint.y() * (nViewportHeight / nCanvasHeight);
-
-    return point3{x, y, nFocalLength};
+    double nViewportX = rCanvasPoint.x() * (nViewportWidth / nCanvasWidth);
+    double nViewportY = rCanvasPoint.y() * (nViewportHeight / nCanvasHeight);
+    return point3{nViewportX, nViewportY, nFocalLength};
 }
 
 struct Sphere
@@ -36,6 +36,5 @@ std::vector<Sphere> GetSceneSpheres()
     aSceneSpheres.push_back(Sphere{point3{0, -1, 3}, 1, color{255, 0, 0}});
     aSceneSpheres.push_back(Sphere{point3{2, 0, 4}, 1, color{0, 0, 255}});
     aSceneSpheres.push_back(Sphere{point3{-2, 0, 4}, 1, color{0, 255, 0}});
-
     return aSceneSpheres;
 }

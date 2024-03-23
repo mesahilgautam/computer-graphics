@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <stdexcept>
 
 class vec3 
 {
@@ -16,12 +17,12 @@ public:
     double y() const { return e[1]; }
     double z() const { return e[2]; }
 
-    double LengthSquared()
+    double LengthSquared() const
     {
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
 
-    double Length()
+    double Length() const
     {
         return std::sqrt(LengthSquared());
     }

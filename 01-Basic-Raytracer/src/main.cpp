@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "../inc/ray.hpp"
 #include "../inc/color.hpp"
 #include "../inc/vec3.hpp"
@@ -15,9 +16,8 @@ int main()
         {
             point3 aViewportPoint = CanvasToViewport(point3(x, y, 0));
             ray aRay(nCameraPosition, aViewportPoint - nCameraPosition);
-            color aPixelColor = TraceRay(aRay);
+            color aPixelColor = TraceRay(aRay, nFocalLength, std::numeric_limits<double>::max());
             PaintCanvasPixel(aPixelColor);
-
         }
     }
 }
