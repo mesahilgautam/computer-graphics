@@ -5,6 +5,19 @@
 #include "../inc/vec3.hpp"
 #include "../inc/data.hpp"
 
+/*
+ * The most important thing while writting anything related to graphics is to
+ * be absolutely sure about what coordinate system/orientation o follow, and
+ * make it sure that all the entities involved in it like the camera, viewport, 
+ * objects etc follow that convention.
+ *
+ * The easiest way to confirm this is to get a sphere printed in the middle of
+ * the image. (or maybe right will be better)
+ *
+ * Here I am assuming that the +x axis goes towards the right side, the +y axis
+ * goes up, and the +z axis goes into the computer screen. So the origin of the 
+ * coordinate system lies on the center of the screen.
+ */
 
 int main()
 {
