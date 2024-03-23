@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+
 #include "../inc/ray.hpp"
 #include "../inc/color.hpp"
 #include "../inc/vec3.hpp"
@@ -23,14 +24,26 @@ int main()
 {
     std::cout << "P3\n" << nCanvasWidth << ' ' << nCanvasHeight << "\n255\n";
 
-    for (double y = nCanvasHeight / 2; y >= -nCanvasHeight / 2; --y)
+    for (int y = nCanvasHeight / 2; y >= -nCanvasHeight / 2; --y)
     {
-        for (double x = -nCanvasWidth / 2; x <= nCanvasWidth / 2; ++x)
+        for (int x = -nCanvasWidth / 2; x <= nCanvasWidth / 2; ++x)
         {
+
             point3 aViewportPoint = CanvasToViewport(point3(x, y, 0));
             ray aRay(nCameraPosition, aViewportPoint - nCameraPosition);
-            color aPixelColor = TraceRay(aRay, nFocalLength, std::numeric_limits<double>::max());
-            PaintCanvasPixel(aPixelColor);
+            color aPixelColor = TraceRay(aRay, nFocalLength, std::numeric_limits<double>::max()); // this is innocent
+            /*
+             * color aPixelColor = TraceRay(nCameraPosition, aViewportPoint, nFocalLength, std::numeric_limits<double>::max()); // this is innocent
+             * using this I confirmed that there is a problem with the function CanvasToViewport, as it is providing wrong Y.
+             */
+
+            PaintCanvasPixel(aPixelColor); // and this one is innocent as well
         }
     }
 }
+
+/*
+ * Another thing that comes to mind is that one can try with different
+ * coordinate system, but then what's wrong in this one?
+ * Who will tell that?
+ */
