@@ -33,9 +33,8 @@ struct Sphere
 std::vector<Sphere> GetSceneSpheres()
 {
     std::vector<Sphere> aSceneSpheres;
-    // aSceneSpheres.push_back(Sphere{point3{0, -1, 3}, 1, color{255, 0, 0}});
-    // aSceneSpheres.push_back(Sphere{point3{2, 0, 4}, 1, color{0, 0, 255}});
-    // aSceneSpheres.push_back(Sphere{point3{-2, 0, 4}, 1, color{0, 255, 0}});
-    aSceneSpheres.push_back(Sphere{ point3{0, 0, 4}, 0.5, color(255, 0, 0)});
+    aSceneSpheres.push_back(Sphere{point3{0, -1, 3}, 1, color{255, 0, 0}});
+    aSceneSpheres.push_back(Sphere{point3{2, 0, 4}, 1, color{0, 0, 255}});
+    aSceneSpheres.push_back(Sphere{point3{-2, 0, 4}, 1, color{0, 255, 0}});
     return aSceneSpheres;
 }
