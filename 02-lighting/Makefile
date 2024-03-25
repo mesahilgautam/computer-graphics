@@ -1,0 +1,36 @@
+SRCDIR=src/
+BUILDDIR=build/
+OBJDIR=obj/
+INCDIR=inc/
+BINARY=$(BUILDDIR)exe
+IMAGE_FILE=$(BUILDDIR)image.ppm
+
+GXX=g++
+GFLAGS=-std=c++20 -Wall -Weffc++ -Wextra -Wconversion \
+	   -Wsign-conversion -Wshadow -pedantic-errors -I $(foreach D, $(INCDIR), $(D))
+
+
+CPPFILES=$(foreach D, $(SRCDIR), $(wildcard $(D)*.cpp))
+HPPFILES=$(foreach D, $(INCDIR), $(wildcard $(D)*.hpp))
+OBJFILES=$(patsubst $(SRCDIR)%.cpp, $(OBJDIR)%.o, $(CPPFILES))
+
+
+all : $(BINARY)
+
+$(BINARY) : $(OBJFILES) | $(BUILDDIR)
+	$(GXX) -o $@ $<
+
+$(OBJFILES) : $(CPPFILES) $(HPPFILES) | $(OBJDIR)
+	$(GXX) $(GFLAGS) -c -o $@ $<
+
+$(BUILDDIR) $(OBJDIR) :
+	mkdir -p $@
+
+run : all
+	./$(BINARY) > $(IMAGE_FILE)
+
+clean :
+	rm -rf $(BUILDDIR) $(OBJDIR)
+
+# test : all
+
