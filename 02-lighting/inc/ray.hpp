@@ -1,8 +1,11 @@
 #pragma once
+
+#include <iostream>
 #include "vec3.hpp"
 #include "data.hpp"
 #include <cmath>
 #include <limits>
+#include <vector>
 
 
 /*
@@ -23,6 +26,41 @@ public:
     point3 orig;
     vec3 dir;
 };
+
+double ComputeLighting(const point3& rScenePoint, const vec3& rNormalAtScenePoint)
+{
+    double nIntensity = 0.0;
+    std::vector<Light> vSceneLightSources = GetSceneLightSources();
+    for (size_t i = 0; i < vSceneLightSources.size(); ++i)
+    {
+        /*
+         * I have a feeling that a switch case here would do more justice,
+         * but considering the situation, this thing works.
+         */
+        if (vSceneLightSources[i].aType == AMBIENT)
+        {
+            nIntensity += vSceneLightSources[i].nIntensity;
+        }
+        else
+        {
+            vec3 aLightVec;
+            if (vSceneLightSources[i].aType == POINT)
+            {
+                aLightVec = vSceneLightSources[i].aPosition - rScenePoint;
+            }
+            else
+            {
+                // DIRECTIONAL
+                aLightVec = vSceneLightSources[i].aDirection;
+            }
+            double NDotL = Dot(rNormalAtScenePoint, aLightVec);
+            if (NDotL > 0)
+                nIntensity += vSceneLightSources[i].nIntensity * NDotL /
+                    (rNormalAtScenePoint.length() * aLightVec.length());
+        }
+    }
+    return nIntensity;
+}
 
 color TraceRay(const ray& aRay, double nLeastDistance, double nMostDistnace)
 {
@@ -61,7 +99,15 @@ color TraceRay(const ray& aRay, double nLeastDistance, double nMostDistnace)
     }
 
     if (pClosestSphere)
-        return pClosestSphere->aFill;
+    {
+        point3 aIntersectionPoint = nCameraPosition + nClosestIntersectionPoint * (aRay.direction() / aRay.direction().length()) ;
+        vec3 aSurfaceNormalDirection = aIntersectionPoint - pClosestSphere->aCenter;
+        vec3 aSurfaceNormal = aSurfaceNormalDirection / aSurfaceNormalDirection.length();
+        return pClosestSphere->aFill * ComputeLighting(aIntersectionPoint, aSurfaceNormal);
+    }
     else
+    {
         return aBackgroundColor;
+    }
 }
+

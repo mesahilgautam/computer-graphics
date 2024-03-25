@@ -5,6 +5,8 @@
 
 void PaintCanvasPixel(const color& rPixelColor)
 {
-  std::cout << rPixelColor.x() << ' ' << rPixelColor.y() << ' '
-            << rPixelColor.z() << '\n';
+    std::cout << 
+        static_cast<int>(rPixelColor.x()) << ' ' << 
+        static_cast<int>(rPixelColor.y()) << ' ' << 
+        static_cast<int>(rPixelColor.z()) << '\n';
 }
